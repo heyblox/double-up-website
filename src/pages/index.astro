@@ -20,7 +20,7 @@ const jsonLd = [
 		image: new URL(withBase('logo.png'), site).href,
 		offers: {
 			'@type': 'Offer',
-			price: '5',
+			price: '0',
 			priceCurrency: 'USD',
 		},
 		publisher: {
@@ -36,7 +36,7 @@ const jsonLd = [
 
 <BaseLayout
 	title="Double Up: Checkout Upsell for Shopify Plus"
-	description="Offer one more unit of an item already in the cart, at a discount you set, right in Shopify checkout. One tap to add. $5/month, unlimited orders."
+	description="Offer one more unit of an item already in the cart, at a discount you set, right in Shopify checkout. One tap to add. Free, with unlimited orders."
 	jsonLd={jsonLd}
 >
 	<Hero />
@@ -167,15 +167,15 @@ const jsonLd = [
 	<section class="section pricing" id="pricing" aria-labelledby="pricing-heading">
 		<div class="site-wrap pricing__inner">
 			<span class="section-label">Pricing</span>
-			<h2 id="pricing-heading" class="section-title">One plan. Unlimited orders.</h2>
+			<h2 id="pricing-heading" class="section-title">Free. Unlimited orders.</h2>
 			<div class="pricing__card">
-				<p class="pricing__price"><span>$5</span> / month</p>
+				<p class="pricing__price"><span>Free</span></p>
 				<ul>
 					<li>Unlimited orders and offers</li>
-					<li>14-day free trial</li>
-					<li>Billed through Shopify; cancel by uninstalling</li>
+					<li>Every feature included</li>
+					<li>Uninstall at any time</li>
 				</ul>
-				<a class="btn" href={appStoreUrl} rel="noopener noreferrer">Start free trial</a>
+				<a class="btn" href={appStoreUrl} rel="noopener noreferrer">Install free</a>
 			</div>
 			<p class="pricing__note">
 				Requires Shopify Plus, since only Plus stores can add apps to checkout. Development
