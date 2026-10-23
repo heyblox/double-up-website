@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/urls';
+---
+
+<BaseLayout
+	title="Page not found"
+	description="That page doesn’t exist."
+	noindex
+>
+	<section class="section not-found">
+		<div class="site-wrap">
+			<span class="section-label">404</span>
+			<h1 class="section-title">Page not found</h1>
+			<p class="section-lead">
+				The link may be outdated. Head back to the homepage or check the FAQ.
+			</p>
+			<p class="not-found__actions">
+				<a class="btn" href={withBase()}>Go home</a>
+				<a href={withBase('faq/')}>FAQ</a>
+			</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.not-found {
+		min-height: 50vh;
+		padding-top: 4rem;
+	}
+
+	.not-found__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1.25rem;
+		margin-top: 1.75rem;
+	}
+
+	.not-found__actions a:not(.btn) {
+		color: var(--color-fg);
+		text-decoration: none;
+	}
+
+	.not-found__actions a:not(.btn):hover {
+		color: var(--color-red);
+	}
+</style>

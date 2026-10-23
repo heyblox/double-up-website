@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/urls';
+import { appName, appStoreUrl, supportEmail } from '../../lib/site';
+
+const site = Astro.site ?? new URL('https://getdoubleup.com');
+const homeUrl = new URL(withBase(), site).href;
+const pageUrl = new URL(withBase('faq/'), site).href;
+const title = 'FAQ: Double Up checkout upsell for Shopify Plus';
+const description =
+	'How Double Up works: buy-another offers in Shopify checkout, discount types, exclusions, margin protection, pricing, and Shopify Plus requirements.';
+
+const faqs = [
+	{
+		id: 'what-does-double-up-do',
+		question: 'What does Double Up do?',
+		answer:
+			'Double Up shows shoppers an offer in checkout to add one more unit of an item already in their cart, at a discount you set. For example: “Add another Classic Tee for $32” instead of $40. The shopper taps Add, the second unit joins the order at the discounted price, and Undo removes it again.',
+	},
+	{
+		id: 'shopify-plus-required',
+		question: 'Does Double Up need Shopify Plus?',
+		answer:
+			'Yes. Double Up adds its offer inside checkout, and only Shopify Plus stores can add apps to checkout with checkout extensions. Development stores and Plus sandbox stores can install it for testing.',
+	},
+	{
+		id: 'how-much-does-it-cost',
+		question: 'How much does Double Up cost?',
+		answer:
+			'$5 per month for unlimited orders, with a 14-day free trial. Billing goes through Shopify, and you can cancel at any time by uninstalling the app.',
+	},
+	{
+		id: 'discount-types',
+		question: 'What kinds of discount can I offer?',
+		answer:
+			'Percent off the price, a fixed amount off, percent off the compare-at price, or the item’s cost plus a markup you choose. Set one default for the store, then override it for specific products or collections.',
+	},
+	{
+		id: 'which-item-is-offered',
+		question: 'Which item does Double Up offer?',
+		answer:
+			'One of the items the shopper already has in their cart, in the same variant they chose, so there’s nothing new to pick. Items you’ve excluded are never offered.',
+	},
+	{
+		id: 'exclude-products',
+		question: 'Can I stop some products from being offered?',
+		answer:
+			'Yes. Exclude products by tag, product type, collection, vendor or price range, or tag a product no-double-up. You can also set a margin floor so Double Up never offers a discount that takes an item below the margin you need, based on its unit cost in Shopify.',
+	},
+	{
+		id: 'where-does-the-offer-appear',
+		question: 'Where in checkout does the offer appear?',
+		answer:
+			'You choose in the checkout editor: below the header, before the pay button, or under the offered item in the order summary. You can change the heading, button, accepted and undo text to match your store’s voice.',
+	},
+	{
+		id: 'combine-with-other-discounts',
+		question: 'Does Double Up work with my other discounts?',
+		answer:
+			'Double Up is applied as a Shopify discount, and you choose whether it combines with your order, shipping and product discounts.',
+	},
+	{
+		id: 'can-shoppers-abuse-the-discount',
+		question: 'Can shoppers change the discount or apply it to more units?',
+		answer:
+			'No. Each offer is signed by Double Up and checked by a Shopify discount function, which discounts exactly one extra unit of the offered item. If you change your discount or exclusions, older offers stop being discounted and checkout shows the offer again on your new terms.',
+	},
+	{
+		id: 'what-data-does-double-up-collect',
+		question: 'What shopper data does Double Up collect?',
+		answer:
+			'Very little. Double Up records which offers were shown and accepted, the item, price and discount, so it can show you results. It doesn’t receive shopper names, emails or addresses.',
+	},
+];
+
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: title,
+		description,
+		url: pageUrl,
+		isPartOf: {
+			'@type': 'WebSite',
+			name: 'Double Up',
+			url: homeUrl,
+		},
+		about: {
+			'@type': 'SoftwareApplication',
+			name: appName,
+			applicationCategory: 'BusinessApplication',
+			operatingSystem: 'Shopify',
+			url: homeUrl,
+			downloadUrl: appStoreUrl,
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: faqs.map((faq) => ({
+			'@type': 'Question',
+			name: faq.question,
+			url: `${pageUrl}#${faq.id}`,
+			acceptedAnswer: {
+				'@type': 'Answer',
+				text: faq.answer,
+			},
+		})),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: homeUrl,
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'FAQ',
+				item: pageUrl,
+			},
+		],
+	},
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+	<article class="section faq">
+		<div class="site-wrap faq__wrap">
+			<span class="section-label">FAQ</span>
+			<h1>Questions about Double Up</h1>
+			<p class="section-lead">
+				How the offer works in checkout, what you can control, and what it costs.
+			</p>
+
+			{
+				faqs.map((faq) => (
+					<section class="faq__item" aria-labelledby={faq.id}>
+						<h2 id={faq.id}>{faq.question}</h2>
+						<p>{faq.answer}</p>
+					</section>
+				))
+			}
+
+			<p class="faq__cta">
+				<a class="btn" href={appStoreUrl} rel="noopener noreferrer">Install Double Up on Shopify</a>
+			</p>
+			<p class="faq__more">
+				Something else? Email <a href={`mailto:${supportEmail}`}>{supportEmail}</a>.
+			</p>
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.faq {
+		padding-top: 3.5rem;
+		padding-bottom: 5rem;
+	}
+
+	.faq__wrap {
+		max-width: 46rem;
+	}
+
+	.faq h1 {
+		font-size: clamp(2rem, 4vw, 2.85rem);
+		max-width: 18ch;
+		margin-bottom: 1rem;
+	}
+
+	.faq .section-lead {
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	.faq__item {
+		margin-top: 2.5rem;
+	}
+
+	.faq__item h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.75rem;
+		max-width: none;
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-fg-muted);
+	}
+
+	.faq__cta {
+		margin-top: 2.75rem;
+	}
+
+	.faq__more {
+		margin-top: 1.25rem;
+		color: var(--color-fg-muted);
+		font-size: 0.95rem;
+	}
+
+	.faq__more a {
+		color: var(--color-fg);
+	}
+
+	.faq__more a:hover {
+		color: var(--color-red);
+	}
+</style>

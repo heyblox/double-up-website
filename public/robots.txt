@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://getdoubleup.com/sitemap-index.xml

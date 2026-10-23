@@ -1,0 +1,93 @@
+---
+import { withBase } from '../lib/urls';
+import { appStoreUrl } from '../lib/site';
+---
+
+<header class="site-header">
+	<div class="site-wrap site-header__inner">
+		<a class="brand" href={withBase()} aria-label="Double Up home">
+			<img src={withBase('logo-512.png')} alt="" width="36" height="36" class="brand__mark" />
+			<span class="brand__name">Double Up</span>
+		</a>
+		<nav class="site-nav" aria-label="Primary">
+			<a href={`${withBase()}#how-it-works`}>How it works</a>
+			<a href={`${withBase()}#pricing`}>Pricing</a>
+			<a href={withBase('faq/')}>FAQ</a>
+			<a class="btn site-nav__cta" href={appStoreUrl} rel="noopener noreferrer">
+				Install
+			</a>
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		height: var(--header-height);
+		border-bottom: 1px solid var(--color-border);
+		background: rgba(10, 10, 10, 0.86);
+		backdrop-filter: blur(12px);
+	}
+
+	.site-header__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 100%;
+	}
+
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.7rem;
+		text-decoration: none;
+		color: var(--color-fg);
+	}
+
+	.brand:hover {
+		color: var(--color-fg);
+	}
+
+	.brand__mark {
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-ring);
+	}
+
+	.brand__name {
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 700;
+		letter-spacing: -0.04em;
+	}
+
+	.site-nav {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+	}
+
+	.site-nav a:not(.btn) {
+		color: var(--color-fg-muted);
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+	.site-nav a:not(.btn):hover {
+		color: var(--color-fg);
+	}
+
+	.site-nav__cta {
+		padding: 0.55rem 0.95rem;
+		font-size: 0.85rem;
+	}
+
+	@media (max-width: 720px) {
+		.site-nav a:not(.btn) {
+			display: none;
+		}
+	}
+</style>

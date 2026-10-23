@@ -1,0 +1,18 @@
+---
+description: Keep AI/editorial instructions out of published website content
+alwaysApply: true
+---
+
+# Published content only
+
+Ship visitor-facing copy only. Never put AI process notes, authoring checklists, or distribution instructions into pages, guides, or components that render on the site.
+
+**Do not publish:**
+- "After you publish…" / "share this post…" / "submit to forums…"
+- "TODO", "placeholder", "for the AI", "when ready", "coming soon" as fake content filler unless the page is intentionally a stub the user asked for
+- Internal SEO/AEO tactics written as if they were merchant-facing advice
+- Draft scaffolding commentary ("keeps the collection valid", "replace this later") in live `draft: false` content
+
+**Do publish:** merchant-facing product copy, guides, comparisons, and legal text.
+
+Put operational notes in README, PR descriptions, chat, or `draft: true` content only.

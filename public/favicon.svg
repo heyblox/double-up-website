@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200">
+  <!-- Small-size cut of double-up-icon.svg: bolder strokes, wider gap, less padding -->
+  <rect width="1200" height="1200" fill="#FFFFFF"/>
+  <g fill="none" stroke-width="180" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 1010 600 600 1040 1010" stroke="#000000"/>
+    <path d="M160 560 600 150 1040 560" stroke="#E1001B"/>
+  </g>
+</svg>
