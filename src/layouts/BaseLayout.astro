@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import { withBase } from '../lib/urls';
 
 interface Props {
@@ -17,7 +18,7 @@ const {
 	title,
 	description,
 	canonicalPath,
-	ogImage = 'logo.png',
+	ogImage = 'og.png',
 	jsonLd,
 	noindex = false,
 } = Astro.props;
@@ -56,6 +57,29 @@ const enableAnalytics = import.meta.env.PROD;
 							dataLayer.push(arguments);
 						}
 						window.gtag = gtag;
+						// Consent Mode: no ad storage anywhere, and analytics only after consent
+						// in the EEA, UK and Switzerland. ConsentBanner stores the visitor's choice.
+						var denied = {
+							ad_storage: 'denied',
+							ad_user_data: 'denied',
+							ad_personalization: 'denied',
+						};
+						gtag('consent', 'default', Object.assign({}, denied, {
+							analytics_storage: 'denied',
+							region: [
+								'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU',
+								'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES',
+								'SE', 'IS', 'LI', 'NO', 'GB', 'CH',
+							],
+						}));
+						gtag('consent', 'default', Object.assign({}, denied, { analytics_storage: 'granted' }));
+						var choice = null;
+						try {
+							choice = localStorage.getItem('analytics-consent');
+						} catch (e) {}
+						if (choice === 'granted' || choice === 'denied') {
+							gtag('consent', 'update', { analytics_storage: choice });
+						}
 						gtag('js', new Date());
 						gtag('config', 'G-QT2NFRBTGY');
 						var s = document.createElement('script');
@@ -80,8 +104,10 @@ const enableAnalytics = import.meta.env.PROD;
 		<meta property="og:description" content={description} />
 		{canonical && <meta property="og:url" content={canonical} />}
 		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
 
-		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={fullTitle} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
@@ -111,5 +137,6 @@ const enableAnalytics = import.meta.env.PROD;
 			<slot />
 		</main>
 		<SiteFooter />
+		<ConsentBanner />
 	</body>
 </html>
