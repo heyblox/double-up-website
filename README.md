@@ -18,7 +18,9 @@ npm run preview
 
 ## Deploy
 
-Pushes to `main` run [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) and publish `dist/` to GitHub Pages.
+Pushes to `main` run [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) and publish `dist/` to GitHub Pages. Pull requests run the same build without deploying, and `main` requires that `build` check to pass before merging.
+
+Dependabot ([`.github/dependabot.yml`](.github/dependabot.yml)) opens weekly PRs for npm packages and GitHub Actions.
 
 In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
