@@ -1,0 +1,102 @@
+---
+import { withBase } from '../lib/urls';
+---
+
+<div class="consent" data-consent-banner hidden>
+	<div class="site-wrap consent__inner" role="region" aria-label="Cookie consent">
+		<p>
+			We use Google Analytics cookies to see how visitors use this site. See our{' '}
+			<a href={withBase('privacy/')}>Privacy Policy</a>.
+		</p>
+		<div class="consent__actions">
+			<button type="button" class="btn btn-ghost" data-consent-choice="denied">Decline</button>
+			<button type="button" class="btn" data-consent-choice="granted">Accept</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	// The choice is read in BaseLayout's analytics snippet to set Consent Mode before gtag loads.
+	const KEY = 'analytics-consent';
+	const banner = document.querySelector<HTMLElement>('[data-consent-banner]');
+
+	function stored(): string | null {
+		try {
+			return localStorage.getItem(KEY);
+		} catch {
+			return null;
+		}
+	}
+
+	function choose(value: 'granted' | 'denied') {
+		try {
+			localStorage.setItem(KEY, value);
+		} catch {
+			// Storage blocked: the choice applies to this page only.
+		}
+		const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+		gtag?.('consent', 'update', { analytics_storage: value });
+		if (banner) banner.hidden = true;
+	}
+
+	if (banner) {
+		if (!stored()) banner.hidden = false;
+		banner.querySelectorAll<HTMLButtonElement>('[data-consent-choice]').forEach((button) => {
+			button.addEventListener('click', () =>
+				choose(button.dataset.consentChoice === 'granted' ? 'granted' : 'denied'),
+			);
+		});
+		document.querySelectorAll('[data-consent-open]').forEach((link) => {
+			link.addEventListener('click', (event) => {
+				event.preventDefault();
+				banner.hidden = false;
+				banner.querySelector<HTMLButtonElement>('[data-consent-choice="granted"]')?.focus();
+			});
+		});
+	}
+</script>
+
+<style>
+	.consent {
+		position: fixed;
+		inset: auto 0 0;
+		z-index: 30;
+		border-top: 1px solid var(--color-border);
+		background: rgba(18, 18, 18, 0.96);
+		backdrop-filter: blur(12px);
+	}
+
+	.consent[hidden] {
+		display: none;
+	}
+
+	.consent__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.85rem 1.5rem;
+		padding: 1rem 0;
+	}
+
+	.consent p {
+		max-width: 40rem;
+		color: var(--color-fg-muted);
+		font-size: 0.95rem;
+	}
+
+	.consent p a {
+		color: var(--color-fg);
+	}
+
+	.consent__actions {
+		display: flex;
+		gap: 0.6rem;
+	}
+
+	.consent__actions .btn {
+		padding: 0.6rem 1.1rem;
+		font-size: 0.9rem;
+		cursor: pointer;
+	}
+</style>
