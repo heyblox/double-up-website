@@ -31,11 +31,41 @@ const canonical =
 		: new URL(normalizedPath === '//' ? '/' : normalizedPath, site).href;
 const ogImageUrl = new URL(withBase(ogImage), site).href;
 const fullTitle = title.includes('Double Up') ? title : `${title} | Double Up`;
+const enableAnalytics = import.meta.env.PROD;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
+		{
+			enableAnalytics && (
+				<script is:inline>
+					(function () {
+						var host = location.hostname;
+						if (
+							host === 'localhost' ||
+							host === '127.0.0.1' ||
+							host === '::1' ||
+							host === '[::1]' ||
+							host === ''
+						) {
+							return;
+						}
+						window.dataLayer = window.dataLayer || [];
+						function gtag() {
+							dataLayer.push(arguments);
+						}
+						window.gtag = gtag;
+						gtag('js', new Date());
+						gtag('config', 'G-QT2NFRBTGY');
+						var s = document.createElement('script');
+						s.async = true;
+						s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QT2NFRBTGY';
+						document.head.appendChild(s);
+					})();
+				</script>
+			)
+		}
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{fullTitle}</title>
